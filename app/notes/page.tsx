@@ -6,9 +6,11 @@ import {
 } from "@tanstack/react-query";
 import { fetchNoteById } from "@/lib/api";
 
-const NotesPage = async ({params,}: {params: {id: string}}) => {
+const NotesPage = async ({ params }: { params: Promise<{ id: string }> }) => {
+  const realParams = await params;
+  const id = realParams.id;
+
   const queryClient = new QueryClient();
-  const id = params.id;
   await queryClient.prefetchQuery({
     queryKey: ["notes", id],
     queryFn: () => fetchNoteById(id),
@@ -20,5 +22,6 @@ const NotesPage = async ({params,}: {params: {id: string}}) => {
     </HydrationBoundary>
   );
 };
+
 
 export default NotesPage;

@@ -18,7 +18,8 @@ export default function NoteDetailsClient() {
   });
 
   if (isLoading) return <p>Loading, please wait...</p>;
-  if (error || !note) return <p>Something went wrong.</p>;
+  if (!note) return <p>Something went wrong.</p>;
+  if (error) return <p>Error: {(error as Error).message}</p>;
 
   return (
     <div className={css.container}>
