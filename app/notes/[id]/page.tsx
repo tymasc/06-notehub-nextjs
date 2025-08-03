@@ -6,13 +6,13 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-interface NoteDetailsPageProps {
+type Props = {
   params: {
     id: string;
   };
-}
+};
 
-export default async function NoteDetailsPage({ params }: NoteDetailsPageProps) {
+export default async function NoteDetailsPage({ params }: Props) {
   const queryClient = new QueryClient();
   const id = params.id;
 
