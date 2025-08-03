@@ -4,13 +4,9 @@ import { fetchNotes } from "@/lib/api";
 import NoteList from "@/components/NoteList/NoteList"
 
 export default function NotesClient() {
-    const {
-      data,
-      isLoading,
-      error,
-    } = useQuery({
+    const { data, isLoading, error } = useQuery({
       queryKey: ["notes", 1],
-        queryFn: () => fetchNotes({ page: 1}),
+      queryFn: () => fetchNotes({page: 1}),
     });
 
   if (isLoading) return <p>Loading, please wait...</p>;

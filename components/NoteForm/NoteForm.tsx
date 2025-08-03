@@ -1,6 +1,6 @@
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { createNote } from "../../services/noteService";
+import { createNote } from "@/lib/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Note, NoteTags } from "../../types/note";
 import css from "./NoteForm.module.css";
@@ -39,7 +39,10 @@ export default function NoteForm({ onSuccess, onCancel }: NoteFormProps) {
     <Formik<NoteFormValues>
       initialValues={{ title: "", content: "", tag: "Todo" }}
       validationSchema={validSchema}
-      onSubmit={(values, { resetForm }) => {
+      onSubmit={(
+        values: NoteFormValues,
+        { resetForm }: FormikHelpers<NoteFormValues>
+      ) => {
         mutation.mutate(values, {
           onSuccess: () => {
             resetForm();

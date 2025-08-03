@@ -6,13 +6,16 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-export default async function NoteDetailsPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+interface NoteDetailsPageProps {
+  params: {
+    id: string;
+  };
+}
+
+export default async function NoteDetailsPage({ params }: NoteDetailsPageProps) {
   const queryClient = new QueryClient();
-  const id = String(params.id);
+  const id = params.id;
+
   await queryClient.prefetchQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
@@ -24,3 +27,4 @@ export default async function NoteDetailsPage({
     </HydrationBoundary>
   );
 }
+
