@@ -6,13 +6,7 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function NoteDetailsPage({ params }: Props) {
+export default async function NoteDetailsPage({ params }: { params: { id: string }; }) {
   const queryClient = new QueryClient();
   const id = params.id;
 
