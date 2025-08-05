@@ -7,6 +7,7 @@ import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
 import Modal from "@/components/Modal/Modal";
 import NoteForm from "@/components/NoteForm/NoteForm";
+import NoteList from "@/components/NoteList/NoteList";
 import { useDebounce } from "@/hooks/useDebounce";
 
 type Props = {
@@ -14,7 +15,7 @@ type Props = {
   totalPages: number;
 };
 
-export default function Notes({ totalPages }: Props) {
+export default function Notes({ notes, totalPages }: Props) {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,10 +25,7 @@ export default function Notes({ totalPages }: Props) {
   const { data, isLoading } = useQuery({
     queryKey: ["notes", page, debouncedSearch],
     queryFn: () => fetchNotes({ page, search: debouncedSearch }),
-    placeholderData: () => ({
-      notes: [],
-      totalPages: 1,
-    }),
+    initialData: { notes, totalPages },
   });
 
   const handlePageChange = (newPage: number) => {
@@ -49,25 +47,14 @@ export default function Notes({ totalPages }: Props) {
 
       <SearchBox value={searchQuery} onChange={handleSearchChange} />
 
-      {isLoading ? (
-        <p>Loading...</p>
-      ) : (
-        <ul>
-          {data?.notes.map((note) => (
-            <li key={note.id}>
-              <h2>{note.title}</h2>
-              <p>{note.content}</p>
-            </li>
-          ))}
-        </ul>
+      {isLoading ? <p>Loading...</p> : <NoteList notes={data?.notes || []} />}
+      {data?.totalPages > 1 && (
+        <Pagination
+          currentPage={page}
+          pageCount={data.totalPages}
+          onPageChange={handlePageChange}
+        />
       )}
-
-      <Pagination
-        currentPage={page}
-        totalPages={data?.totalPages || totalPages}
-        onPageChange={handlePageChange}
-        pageCount={0}
-      />
 
       {isModalOpen && (
         <Modal onClose={toggleModal}>
