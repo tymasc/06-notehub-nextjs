@@ -14,7 +14,7 @@ type Props = {
   totalPages: number;
 };
 
-export default function Notes({ notes, totalPages }: Props) {
+export default function Notes({ totalPages }: Props) {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);

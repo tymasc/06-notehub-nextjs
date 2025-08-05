@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom";
-import css from "./Modal.module.css";
+import css from "./NoteModal.module.css";
 import { useEffect } from "react";
 
 interface ModalProps {
