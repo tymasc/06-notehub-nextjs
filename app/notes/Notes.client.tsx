@@ -25,7 +25,7 @@ export default function Notes({ notes, totalPages }: Props) {
   const { data, isLoading } = useQuery({
     queryKey: ["notes", page, debouncedSearch],
     queryFn: () => fetchNotes({ page, search: debouncedSearch }),
-    initialData: { notes, totalPages },
+    placeholderData: { notes, totalPages },
   });
 
   const handlePageChange = (newPage: number) => {
@@ -39,6 +39,8 @@ export default function Notes({ notes, totalPages }: Props) {
 
   const toggleModal = () => setIsModalOpen((prevv) => !prevv);
 
+  const noteData = data ?? { notes: [], totalPages: 1 };
+
   return (
     <div>
       <div>
@@ -48,10 +50,10 @@ export default function Notes({ notes, totalPages }: Props) {
       <SearchBox value={searchQuery} onChange={handleSearchChange} />
 
       {isLoading ? <p>Loading...</p> : <NoteList notes={data?.notes || []} />}
-      {data?.totalPages > 1 && (
+      {noteData.totalPages > 1 && (
         <Pagination
           currentPage={page}
-          pageCount={data.totalPages}
+          pageCount={noteData.totalPages}
           onPageChange={handlePageChange}
         />
       )}
