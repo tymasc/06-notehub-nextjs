@@ -1,11 +1,10 @@
 import axios from "axios";
 import { NoteTags, Note } from "@/types/note";
 
-const API_URL = "https://notehub-public.goit.study/api";
+axios.defaults.baseURL = "https://notehub-public.goit.study/api/notes";
 const API_TOKEN = process.env.NEXT_PUBLIC_NOTEHUB_TOKEN;
 
 const instance = axios.create({
-  baseURL: API_URL,
   headers: {
     Authorization: `Bearer ${API_TOKEN}`,
   },
